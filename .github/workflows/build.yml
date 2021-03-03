@@ -22,6 +22,8 @@ jobs:
       # Extract version tag
       - name: tag name
         run: echo "VERSION_TAG=$(echo $VERSION_TAG_STRING | cut -f3- -d/)" >> $GITHUB_ENV
+      - name: echo
+        run: echo $VERSION_TAG
       
       # Lint the chart
       - name: Lint
