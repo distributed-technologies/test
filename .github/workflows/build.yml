@@ -15,10 +15,14 @@ jobs:
     runs-on: ubuntu-latest
     env:
       # Cut the version tag from the github ref e.g. refs/tags/v1.0.1
-      VERSION_TAG: ${{ github.ref | cut -f3- -d/ }}
+      VERSION_TAG_STRING: ${{ github.ref }}
 
     steps:
       - uses: actions/checkout@v2
+      # Extract version tag
+      - name: tag name
+        run: echo "VERSION_TAG=$(echo $VERSION_TAG_STRING | cut -f3- -d/)" >> $GITHUB_ENV
+      
       # Lint the chart
       - name: Lint
         run: helm lint chart
