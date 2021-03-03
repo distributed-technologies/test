@@ -10,7 +10,6 @@ jobs:
     # Only run the job if the Version Bump action was succesfull
     #if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
       # Extract version tag
@@ -25,11 +24,11 @@ jobs:
       - name: Cat chart
         run: cat chart/Chart.yaml
       - name: Commit helm version
-      - uses: stefanzweifel/git-auto-commit-action@v4
+        uses: stefanzweifel/git-auto-commit-action@v4
         with: 
-          commit_message: New helm chart version ${{ steps.previoustag.outputs.tag }}
+          commit_message: "New helm chart version ${{ steps.previoustag.outputs.tag }}"
 	  branch: main
-      - name: Lint
+      - name: Helm lint
         run: helm lint chart
       # Build the archive to release
       - name: Build
