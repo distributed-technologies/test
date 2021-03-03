@@ -8,8 +8,7 @@ on:
 jobs:
   build:
     # Only run the job if the Version Bump action was succesfull
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    
+    #if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     env:
       # Cut the version tag from the github ref e.g. refs/tags/v1.0.1
