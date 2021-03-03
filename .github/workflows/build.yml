@@ -26,10 +26,10 @@ jobs:
           # As the action is trigger on a tag, no branch exists. Therefore we specify it
           branch: main
       - name: Helm lint
-        run: Helm lint chart
+        run: helm lint chart
       # Build the archive to release
       - name: Build
-        run: Helm package chart
+        run: helm package chart
       # Create the release
       - name: Create Release
         id: create_release
