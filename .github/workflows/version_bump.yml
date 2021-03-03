@@ -20,6 +20,6 @@ jobs:
         create_annotated_tag: true
         tag_prefix: v
         release_branches: main
-        pre_release_branches: '*'
+        pre_release_branches: '.*'
         dry_run: false
         append_to_pre_release_tag: beta
