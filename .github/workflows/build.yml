@@ -55,5 +55,4 @@ jobs:
           # Chart version is keept at 0.1.0 for all charts 
           asset_path: ./mukube-vnet-0.1.0.tgz
           asset_name: mukube-vnet-${{ env.VERSION_TAG }}.tgz
-	  
           asset_content_type: application/zip
