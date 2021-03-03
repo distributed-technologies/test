@@ -1,11 +1,9 @@
 name: Build and release
  
 on:
-  workflow_run:
-    workflows: ["Version Bump"]
-    branches: [main]
-    types: 
-      - completed
+  create:
+    tags: 
+      v*
 
 jobs:
   build:
