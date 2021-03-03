@@ -23,4 +23,4 @@ jobs:
         pre_release_branches: '.*'
         dry_run: false
         append_to_pre_release_tag: beta
-        custom_release_rules: HEJ:patch, MID:minor
+        custom_release_rules: HEJ:patch, MID:minor, test:test
