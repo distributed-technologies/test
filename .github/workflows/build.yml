@@ -27,7 +27,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with: 
           commit_message: "New helm chart version ${{ steps.previoustag.outputs.tag }}"
-	  branch: main
+          branch: main
       - name: Helm lint
         run: helm lint chart
       # Build the archive to release
