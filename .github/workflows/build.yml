@@ -10,18 +10,20 @@ jobs:
     # Only run the job if the Version Bump action was succesfull
     #if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
-    env:
-      # Cut the version tag from the github ref e.g. refs/tags/v1.0.1
-      VERSION_TAG_STRING: ${{ github.ref }}
 
     steps:
       - uses: actions/checkout@v2
       # Extract version tag
-      - name: tag name
-        run: echo "VERSION_TAG=$(echo $VERSION_TAG_STRING | cut -f3- -d/)" >> $GITHUB_ENV
+      - name: 'Get Previous tag'
+        id: previoustag
+        uses: "WyriHaximus/github-action-get-previous-tag@v1"
       - name: echo
-        run: echo $VERSION_TAG
-      
+        run: echo ${{ steps.previoustag.outputs.tag }}
+      - name: Update Helm Chart version
+        run: |
+          sed -i 's/version: \"v[0-9]\.[0-9]\.[0-9]\"/version: "${{ steps.previoustag.outputs.tag }}"/g' chart/Chart.yaml
+      - name: Cat chart
+        run: cat chart/Chart.yaml
       # Lint the chart
       - name: Lint
         run: helm lint chart
