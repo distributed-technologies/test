@@ -19,27 +19,20 @@ jobs:
       USE_QUOTES_HELM: true # Weather or not to use quotes around your helm version e.g. "v1.0.0" and not v1.0.0
     steps:
       - uses: actions/checkout@v2
-      
-      - name: Test env GITHUB_REF
-        run: echo ${{ env.GITHUB_REF }}
-
       # Extract last tag and update helm chart. 
       - name: 'Get Previous tag'
         uses: actions-ecosystem/action-get-latest-tag@v1
         id: get-latest-tag
 
-      - name: Test env tag
-        run: echo ${{ steps.get-latest-tag.outputs.tag }}
-
       - name: Update Helm Chart version
         if: ${{ env.USE_QUOTES_HELM }} 
         run: |
-          sed -i 's/version: \"v[0-9]\.[0-9]\.[0-9]\"/version: "${{ steps.get-latest-tag.outputs.tag }}"/g' chart/Chart.yaml
+          sed -i 's/version: \"v[0|(1-9)\d*]\.[0|(1-9)\d*]\.[0|(1-9)\d*].*\"/version: "${{ steps.get-latest-tag.outputs.tag }}"/g' chart/Chart.yaml
 
       - name: Update Helm Chart version
         if: ${{ !env.USE_QUOTES_HELM }} 
         run: |
-          sed -i 's/version: v[0-9]\.[0-9]\.[0-9]/version: "${{ steps.get-latest-tag.outputs.tag }}"/g' chart/Chart.yaml
+          sed -i 's/version: \"v[0|(1-9)\d*]\.[0|(1-9)\d*]\.[0|(1-9)\d*].*\"/version: ${{ steps.get-latest-tag.outputs.tag }}/g' chart/Chart.yaml
 
       - name: Commit Helm version
         uses: stefanzweifel/git-auto-commit-action@v4
