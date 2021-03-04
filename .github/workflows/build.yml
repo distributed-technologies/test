@@ -31,6 +31,9 @@ jobs:
           tag_name: ${{ steps.get-latest-tag.outputs.tag }} # tag name to delete
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      # Checkout after tag delete
+      - uses: actions/checkout@v2
 
       - name: Update Helm Chart version
         if: ${{ env.USE_QUOTES_HELM }} 
