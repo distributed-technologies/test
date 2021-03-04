@@ -1,6 +1,11 @@
-name: Build and release
+name: Build and release helm chart
  
 on:
+  workflow_run:
+    workflows: ["Version Bump"]
+    branches: main
+    types: 
+      - completed
   push:
     tags:
       - 'v[0-9]\.[0-9]\.[0-9]*'
@@ -8,14 +13,14 @@ on:
 jobs:
   build:
     # Only run the job if the Version Bump action was succesfull
-    #if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     env: 
       USE_QUOTES_HELM: true # Weather or not to use quotes around your helm version e.g. "v1.0.0" and not v1.0.0
     steps:
       - uses: actions/checkout@v2
 
-      # Extract last tag and update helm chart. (ASSUMES v as version prefix and "" around the full version string)
+      # Extract last tag and update helm chart. 
       - name: 'Get Previous tag'
         id: previoustag
         uses: "WyriHaximus/github-action-get-previous-tag@v1"
