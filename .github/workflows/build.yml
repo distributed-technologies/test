@@ -28,6 +28,9 @@ jobs:
         uses: actions-ecosystem/action-get-latest-tag@v1
         id: get-latest-tag
 
+      - name: Test env tag
+        run: echo ${{ steps.get-latest-tag.outputs.tag }}
+
       - name: Update Helm Chart version
         if: ${{ env.USE_QUOTES_HELM }} 
         run: |
