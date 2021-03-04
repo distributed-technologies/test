@@ -1,5 +1,4 @@
 maintainers:
 - name: MEEEE
 apiVersion: v2
-version: "v8.1.0"
-name: test
+version: "v8.2.1"
