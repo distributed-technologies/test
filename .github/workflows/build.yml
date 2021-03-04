@@ -19,6 +19,7 @@ jobs:
       USE_QUOTES_HELM: true # Weather or not to use quotes around your helm version e.g. "v1.0.0" and not v1.0.0
     steps:
       - uses: actions/checkout@v2
+
       # Extract last tag and update helm chart. 
       - name: 'Get Previous tag'
         uses: actions-ecosystem/action-get-latest-tag@v1
@@ -40,6 +41,13 @@ jobs:
           commit_message: "New helm chart version ${{ steps.get-latest-tag.outputs.tag }}"
           # As the action is trigger on a tag, no branch exists. Therefore we specify it
           branch: main
+          tagging_message: ${{ steps.get-latest-tag.outputs.tag }}
+          push_options: '--force'
+      
+      - name: Move tag
+        run: |
+          git tag -f ${{ steps.get-latest-tag.outputs.tag }}
+          git push --tag
 
       - name: Helm lint
         run: helm lint chart
