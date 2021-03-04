@@ -10,26 +10,40 @@ jobs:
     # Only run the job if the Version Bump action was succesfull
     #if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
+    env: 
+      USE_QUOTES_HELM: true # Weather or not to use quotes around your helm version e.g. "v1.0.0" and not v1.0.0
     steps:
       - uses: actions/checkout@v2
+
       # Extract last tag and update helm chart. (ASSUMES v as version prefix and "" around the full version string)
       - name: 'Get Previous tag'
         id: previoustag
         uses: "WyriHaximus/github-action-get-previous-tag@v1"
+
       - name: Update Helm Chart version
+        if: ${{ env.USE_QUOTES_HELM }} 
         run: |
           sed -i 's/version: \"v[0-9]\.[0-9]\.[0-9]\"/version: "${{ steps.previoustag.outputs.tag }}"/g' chart/Chart.yaml
+
+      - name: Update Helm Chart version
+        if: ${{ !env.USE_QUOTES_HELM }} 
+        run: |
+          sed -i 's/version: v[0-9]\.[0-9]\.[0-9]/version: "${{ steps.previoustag.outputs.tag }}"/g' chart/Chart.yaml
+
       - name: Commit Helm version
         uses: stefanzweifel/git-auto-commit-action@v4
         with: 
           commit_message: "New helm chart version ${{ steps.previoustag.outputs.tag }}"
           # As the action is trigger on a tag, no branch exists. Therefore we specify it
           branch: main
+
       - name: Helm lint
         run: helm lint chart
+
       # Build the archive to release
       - name: Build
         run: helm package chart
+
       # Create the release
       - name: Create Release
         id: create_release
@@ -41,10 +55,12 @@ jobs:
           release_name: Release ${{ steps.previoustag.outputs.tag }}
           draft: false
           prerelease: false
+
       # Connect the archive to the release
       - name: Set CHART_NAME env
         run: |
           echo "CHART_NAME=$(helm show chart chart/ | grep "name: mukube-*" | cut -f2- -d' ')" >> $GITHUB_ENV
+          
       - name: Upload Release Asset
         id: upload-release-asset 
         uses: actions/upload-release-asset@v1
