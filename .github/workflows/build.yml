@@ -54,7 +54,6 @@ jobs:
           # As the action is trigger on a tag, no branch exists. Therefore we specify it
           branch: main
           tagging_message: ${{ steps.get-latest-tag.outputs.tag }}
-          push_options: '--force'
       
       - name: Helm lint
         run: helm lint chart
