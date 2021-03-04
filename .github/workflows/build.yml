@@ -34,6 +34,8 @@ jobs:
       
       # Checkout after tag delete
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Update Helm Chart version
         if: ${{ env.USE_QUOTES_HELM }} 
