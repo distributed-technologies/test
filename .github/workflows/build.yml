@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     env: 
       USE_QUOTES_HELM: true # Weather or not to use quotes around your helm version e.g. "v1.0.0" and not v1.0.0
-      COMMIT: ${{ github.event.commit[0] }}
+      COMMIT: ${{ github.event.commits[0] }}
     steps:
       - name: Jump into a repo
         uses: actions/checkout@v2
