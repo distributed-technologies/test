@@ -11,17 +11,9 @@ on:
       - 'v[0-9]\.[0-9]\.[0-9]*'
 
 jobs:
-  print:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Test
-        run: echo ${{ github.event.ref }} 
-
-      - name: Test2
-        run: echo ${{ github.event.workflow_run.conclusion }}
   build:
     # Only run the job if the Version Bump action was succesfull
-    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event.push.status == 'completed' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' || startsWith(github.event.ref, 'refs/tags/v' ) }}
     runs-on: ubuntu-latest
     env: 
       USE_QUOTES_HELM: true # Weather or not to use quotes around your helm version e.g. "v1.0.0" and not v1.0.0
