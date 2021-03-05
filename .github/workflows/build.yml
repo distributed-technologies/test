@@ -24,6 +24,7 @@ jobs:
           echo $COMMIT
       - name: Jump into a repo
         uses: actions/checkout@v2
+        with:
           ref: 'main'
 
       # If we are on a tag, there is no branch
