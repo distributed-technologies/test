@@ -25,6 +25,9 @@ jobs:
       - name: Jump into a repo
         uses: actions/checkout@v2
       # If we are on a tag, there is no branch
+
+      - name: Find branch
+        run: git branch -r --contains ${{ env.COMMIT }}
       - name: Get Branch
         run: |
           raw=$(git branch -r --contains ${{ env.COMMIT }})
