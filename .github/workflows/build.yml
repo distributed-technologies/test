@@ -17,8 +17,11 @@ jobs:
     runs-on: ubuntu-latest
     env: 
       USE_QUOTES_HELM: true # Weather or not to use quotes around your helm version e.g. "v1.0.0" and not v1.0.0
-      COMMIT: ${{ github.event.after }}
     steps:
+      - name: set
+        run: |
+          echo COMMIT=${{ github.event.after }} >> $GITHUB_ENV
+          echo $COMMIT
       - name: Jump into a repo
         uses: actions/checkout@v2
       # If we are on a tag, there is no branch
@@ -33,7 +36,6 @@ jobs:
         run: | 
           echo ${{ env.BRANCH }}
           echo ${{ env.RAW }}
-
 
       - uses: actions/checkout@v2
         with:
