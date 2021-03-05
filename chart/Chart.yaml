@@ -2,4 +2,4 @@ maintainers:
 - name: MEEEE
 apiVersion: v2
 name: test
-version: "v9.0.10"
+version: "v9.3.0"
