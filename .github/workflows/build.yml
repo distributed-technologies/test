@@ -8,7 +8,7 @@ on:
       - completed
   push:
     tags:
-      - 'v[0-9]\.[0-9]\.[0-9]*'
+      - 'v[0-9]*\.[0-9]*\.[0-9]*'
 
 jobs:
   build:
@@ -18,30 +18,19 @@ jobs:
     env: 
       USE_QUOTES_HELM: true # Weather or not to use quotes around your helm version e.g. "v1.0.0" and not v1.0.0
     steps:
-      - name: set
+      - name: Find commit
         run: |
           echo COMMIT=${{ github.event.after }} >> $GITHUB_ENV
-          echo $COMMIT
-      - name: Jump into a repo
+      - name: Jump into main
         uses: actions/checkout@v2
         with:
           ref: 'main'
 
-      # If we are on a tag, there is no branch
-
-      - name: Find branch
-        run: git branch -r --contains ${{ env.COMMIT }}
       - name: Get Branch
         run: |
           raw=$(git branch -r --contains ${{ env.COMMIT }})
           branch=${raw##*/}
-          echo RAW=$raw >> $GITHUB_ENV
           echo BRANCH=$branch >> $GITHUB_ENV
-
-      - name: Echo branch
-        run: | 
-          echo ${{ env.BRANCH }}
-          echo ${{ env.RAW }}
 
       - uses: actions/checkout@v2
         with:
