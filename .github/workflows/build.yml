@@ -66,6 +66,7 @@ jobs:
           # As the action is trigger on a tag, no branch exists. Therefore we specify it
           branch: ${{ env.BRANCH }}
           tagging_message: ${{ steps.get-latest-tag.outputs.tag }}
+          skip_fetch: true
       
       - name: Helm lint
         run: helm lint chart
