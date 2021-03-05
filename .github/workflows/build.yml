@@ -27,6 +27,8 @@ jobs:
           branch=${raw/origin\/}
           echo BRANCH=$branch >> $GITHUB_ENV
 
+      - name: Echo branch
+        run: echo ${{ env.BRANCH }}
       - uses: actions/checkout@v2
         with:
           ref: ${{ env.BRANCH }}
