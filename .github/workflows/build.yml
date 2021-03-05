@@ -32,8 +32,8 @@ jobs:
 
       - name: Echo branch
         run: | 
-        echo ${{ env.BRANCH }}
-        echo ${{ env.RAW }}
+          echo ${{ env.BRANCH }}
+          echo ${{ env.RAW }}
 
 
       - uses: actions/checkout@v2
