@@ -20,6 +20,8 @@ jobs:
     steps:
       - name: Jump into a repo
         uses: actions/checkout@v2
+          with:
+            fetch-depth: 0
       # If we are on a tag, there is no branch
       - name: Get Branch
         run: |
