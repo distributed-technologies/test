@@ -16,6 +16,9 @@ jobs:
     steps:
       - name: Test
         run: echo ${{ github.event.push }} 
+
+      - name: Test2
+        run: echo ${{ github.event.workflow_run.conclusion }}
   build:
     # Only run the job if the Version Bump action was succesfull
     if: ${{ github.event.workflow_run.conclusion == 'success' || github.event.push.status == 'completed' }}
