@@ -18,9 +18,15 @@ jobs:
     env: 
       USE_QUOTES_HELM: true # Weather or not to use quotes around your helm version e.g. "v1.0.0" and not v1.0.0
     steps:
+      - name: Get Branch
+        run: |
+          raw=$(git branch -r --contains ${{ github.ref }})
+          branch=${raw/origin\/}
+          echo ::set-env name=BRANCH::$branch
+
       - uses: actions/checkout@v2
-        with: 
-          ref: 'refs/branch/main'
+        with:
+          ref: ${{ env.BRANCH }}
 
       # Extract last tag and update helm chart. 
       - name: 'Get Previous tag'
@@ -38,7 +44,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-          ref: 'refs/branch/main'
+          ref: ${{ env.BRANCH }}
 
       - name: Update Helm Chart version
         if: ${{ env.USE_QUOTES_HELM }} 
