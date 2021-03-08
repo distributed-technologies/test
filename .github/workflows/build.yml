@@ -57,12 +57,12 @@ jobs:
       - name: Update Helm Chart version
         if: ${{ env.USE_QUOTES_HELM }} 
         run: |
-          sed -i 's/version: \"v[0|(1-9)\d*]\.[0|(1-9)\d*]\.[0|(1-9)\d*].*\"/version: "${{ steps.get-latest-tag.outputs.tag }}"/g' chart/Chart.yaml
+          sed -i 's/version: \"v.*\"/version: "${{ steps.get-latest-tag.outputs.tag }}"/g' chart/Chart.yaml
 
       - name: Update Helm Chart version
         if: ${{ !env.USE_QUOTES_HELM }} 
         run: |
-          sed -i 's/version: \"v[0|(1-9)\d*]\.[0|(1-9)\d*]\.[0|(1-9)\d*].*\"/version: ${{ steps.get-latest-tag.outputs.tag }}/g' chart/Chart.yaml
+          sed -i 's/version: v.*/version: ${{ steps.get-latest-tag.outputs.tag }}/g' chart/Chart.yaml
 
       - name: Commit Helm version
         uses: stefanzweifel/git-auto-commit-action@v4
