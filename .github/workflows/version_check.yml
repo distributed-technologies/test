@@ -52,8 +52,7 @@ jobs:
         run: echo ${{ env.HELM_VERSION }}
         
       - name: Check versions
-        if: ${{ env.HELM_VERSION == steps.semvers.outputs.v_patch || env.HELM_VERSION == steps.semvers.outputs.v_minor || env.HELM_VERSION == steps.semvers.outputs.v_major }}
-        run: exit 0
-
-      - name: Fail
-        run: exit 1
+        if: ${{ env.HELM_VERSION != steps.semvers.outputs.v_patch && env.HELM_VERSION != steps.semvers.outputs.v_minor && env.HELM_VERSION != steps.semvers.outputs.v_major }}
+        run: |
+          echo "helm chart version does not match any of ${{steps.semvers.outputs.v_patch}}, ${{steps.semvers.outputs.v_minor}} or ${{steps.semvers.outputs.v_major}}"
+          exit 1
