@@ -13,7 +13,7 @@ jobs:
       - name: 'Get Previous tag'
         id: previoustag
         uses: "WyriHaximus/github-action-get-previous-tag@v1"
-      - name: 'Get next minor version'
+      - name: 'Get next versions'
         id: semvers
         uses: "WyriHaximus/github-action-next-semvers@v1"
         with:
@@ -48,10 +48,11 @@ jobs:
       - name: Get helm chart version
         run: | 
           echo HELM_VERSION=$(grep "version: " chart/Chart.yaml | cut -f2 -d' ') >> $GITHUB_ENV
-          echo ${{ env.HELM_VERSION }}
+      - name: Print version
+        run: echo ${{ env.HELM_VERSION }}
         
       - name: Check versions
-        if: ${{ env.HELM_VERSION == steps.semvers.outputs.patch || env.HELM_VERSION == steps.semvers.outputs.minor || env.HELM_VERSION == steps.semvers.outputs.major }}
+        if: ${{ env.HELM_VERSION == steps.semvers.outputs.v_patch || env.HELM_VERSION == steps.semvers.outputs.v_minor || env.HELM_VERSION == steps.semvers.outputs.v_major }}
         run: exit 0
 
       - name: Fail
