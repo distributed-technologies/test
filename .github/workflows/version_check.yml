@@ -25,3 +25,9 @@ jobs:
          echo ${{steps.semvers.outputs.patch }}
          echo ${{steps.semvers.outputs.minor }}
          echo ${{steps.semvers.outputs.major }}
+      # Checkout pullrequest branch
+      - uses: actions/checkout@v2
+        with:
+          ref: main
+      - name: Echo pr version 
+        run: echo chart/Chart.yaml
