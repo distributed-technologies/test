@@ -53,6 +53,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ env.BRANCH }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update Helm Chart version
         if: ${{ env.USE_QUOTES_HELM }} 
@@ -69,7 +70,6 @@ jobs:
         with: 
           commit_message: "New helm chart version ${{ steps.get-latest-tag.outputs.tag }}"
           tagging_message: ${{ steps.get-latest-tag.outputs.tag }}
-          
       
       - name: Helm lint
         run: helm lint chart
