@@ -27,5 +27,7 @@ jobs:
          echo ${{steps.semvers.outputs.major }}
       # Checkout pullrequest branch
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
       - name: Echo pr version 
         run: cat chart/Chart.yaml
