@@ -1,8 +1,6 @@
 name: Version Check
 on:
   pull_request:
-    branches:
-      - main
 
 jobs:
   check_version:
@@ -26,8 +24,23 @@ jobs:
          echo ${{steps.semvers.outputs.minor }}
          echo ${{steps.semvers.outputs.major }}
       # Checkout pullrequest branch
+      - name: Find commit
+        run: |
+          echo COMMIT=${{ github.event.after }} >> $GITHUB_ENV
+      - name: Jump into main
+        uses: actions/checkout@v2
+        with:
+          ref: 'main'
+
+      - name: Get Branch
+        run: |
+          raw=$(git branch -r --contains ${{ env.COMMIT }})
+          branch=${raw##*/}
+          echo BRANCH=$branch >> $GITHUB_ENV
+
       - uses: actions/checkout@v2
         with:
-          ref: ${{ github.ref }}
-      - name: Echo pr version 
+          ref: ${{ env.BRANCH }}
+
+      - name: Cat file
         run: cat chart/Chart.yaml
