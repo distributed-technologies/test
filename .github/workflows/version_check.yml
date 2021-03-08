@@ -30,4 +30,4 @@ jobs:
         with:
           ref: main
       - name: Echo pr version 
-        run: echo chart/Chart.yaml
+        run: cat chart/Chart.yaml
