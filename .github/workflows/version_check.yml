@@ -21,4 +21,7 @@ jobs:
         with:
           version: ${{ steps.previoustag.outputs.tag }}
       - name: Echo
-        run: echo ${{steps.semvers.outputs }}
+        run: |
+         echo ${{steps.semvers.outputs.patch }}
+         echo ${{steps.semvers.outputs.minor }}
+         echo ${{steps.semvers.outputs.major }}
