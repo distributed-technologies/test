@@ -2,7 +2,8 @@ name: Build and release helm chart
  
 on:
   push: 
-    main
+    branches:
+     main
 
 jobs:
   build:
