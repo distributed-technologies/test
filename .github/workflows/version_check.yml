@@ -36,6 +36,12 @@ jobs:
       - uses: actions/checkout@v2
         with:
           ref: ${{ env.BRANCH }}
+        
+      - name: Check sha and commit
+        run: |
+          echo ${{ env.COMMIT }}
+          echo ${{ github.sha }}
+
 
       - name: Get helm chart version
         run: | 
