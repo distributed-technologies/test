@@ -41,6 +41,8 @@ jobs:
         run: |
           echo ${{ env.COMMIT }}
           echo ${{ github.sha }}
+          echo ${{ github.head_ref }}
+          echo ${{ github.base_ref }}
 
 
       - name: Get helm chart version
