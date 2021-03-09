@@ -13,6 +13,9 @@ jobs:
         run: |
           echo HELM_VERSION=$(grep "version: " chart/Chart.yaml | cut -f2 -d' ') >> $GITHUB_ENV
     
+      - name: ls
+        run: ls
+        
       - name: Helm lint
         run: helm lint chart
 
